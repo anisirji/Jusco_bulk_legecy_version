@@ -57,8 +57,8 @@ export default function ApplicationTable({ data, actionLink, setApplicantData })
             <TableRow>
               <StyledTableCell>Sl.No</StyledTableCell>
               <StyledTableCell align="center">Customer Id</StyledTableCell>
-              <StyledTableCell align="center">Business Name</StyledTableCell>
               <StyledTableCell align="center">Pick up address</StyledTableCell>
+              <StyledTableCell align="center">Phone No</StyledTableCell>
               <StyledTableCell align="center">Latitude</StyledTableCell>
               <StyledTableCell align="center">Longitude</StyledTableCell>
               <StyledTableCell align="center">QR-Status</StyledTableCell>
@@ -72,8 +72,8 @@ export default function ApplicationTable({ data, actionLink, setApplicantData })
                 <StyledTableCell component="th" scope="row">
                   {row?.customer_id}
                 </StyledTableCell>
-                <StyledTableCell align="left"> {row?.pickup_estb_name}</StyledTableCell>
                 <StyledTableCell align="left"> {row?.pickup_estb_name + " " + row?.pickup_estb_name + " " + row?.pickup_street + " " + row?.pickup_locality + " " + row?.pickup_city + " " + row?.pickup_region + " " + row?.pickup_postal_code}</StyledTableCell>
+                <StyledTableCell align="left"> {row?.mobile_no}</StyledTableCell>
                 <StyledTableCell align="center"> {row?.latitude}</StyledTableCell>
                 <StyledTableCell align="center">{row?.longitude}</StyledTableCell>
                 <StyledTableCell align="center"><b>{row?.house_id == row?.application_no ? "NOT PASTED" : "PASTED"}</b></StyledTableCell>
