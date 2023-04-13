@@ -9,11 +9,12 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
 
 export default function FieldWorkerDashboard(props) {
   const [number, setNumber] = useState("");
   const [old, setOld] = useState("Message");
-
+  const navigate = useNavigate();
   const mediaQuery = window.matchMedia("(max-width: 550px)");
   //OTP varification left
   return (
@@ -25,9 +26,10 @@ export default function FieldWorkerDashboard(props) {
           <Typography sx={styles.loginText}>
             Enter customer Phone Number
           </Typography>
-          <br />< br/>
-          <input 
-          style={styles.input}
+          <br />
+          <br />
+          <input
+            style={styles.input}
             type="number"
             placeholder="Enter Phone Number"
             onChange={(k) => {
@@ -35,7 +37,7 @@ export default function FieldWorkerDashboard(props) {
               setNumber(k.target.value);
             }}
           />
-<br />
+          <br />
           <Button
             variant="contained"
             sx={styles.loginBtn}
@@ -44,17 +46,26 @@ export default function FieldWorkerDashboard(props) {
               console.log(number);
               const message =
                 "Please visit https://reactprd.juscoltd.com/ to register yourself to TATA STEEL UISL Bulk Generation Services. -Tata Steel UISL (JUSCO)";
-              
-              const s = await axios.post("/sms",{
-                phone:number,message:message
-              }).then(res => {
-                alert(res.data.message)
-              })
 
-              
+              const s = await axios
+                .post("/sms", {
+                  phone: number,
+                  message: message,
+                })
+                .then((res) => {
+                  alert(res.data.message);
+                });
             }}
           >
             Send Message
+          </Button>
+          <Button
+            varient="contained"
+            onClick={() => {
+              navigate("/editUserApplication");
+            }}
+          >
+            Update User Data
           </Button>
           <Divider sx={styles.divider} />
 

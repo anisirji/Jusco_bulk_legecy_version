@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@mui/material/Button";
@@ -16,7 +16,7 @@ export default function DoorToDoorVerification(props) {
   const mediaQuery = window.matchMedia("(max-width: 650px)");
 
   const [applicants, setApplicants] = useState([])
-  
+
   const [Table, setTable] = useState(
     <ApplicationTable
       data={applicants}
@@ -27,7 +27,7 @@ export default function DoorToDoorVerification(props) {
   // console.log(applicants)
 
   const [tableName, setTableName] = useState("Applications");
- 
+
 
   function handleClickPop(e) {
     setTableName(e.target.innerText);
@@ -43,7 +43,7 @@ export default function DoorToDoorVerification(props) {
   const fetchApplicants = async (e) => {
     axios
       .post("/getApplications", {
-        token:localStorage.getItem("adminToken")
+        token: localStorage.getItem("adminToken")
       })
       .then((res) => setApplicants(res.data?.data));
   };
@@ -51,20 +51,20 @@ export default function DoorToDoorVerification(props) {
   useEffect(() => {
     fetchApplicants();
   }, [])
-  
+
   let navigate = useNavigate()
 
   return (
     <div>
       <Container maxWidth="xl" sx={styles.container}>
-      <Button
-      sx={styles.logoutBtn}
-        onClick={() => {
-          localStorage.setItem("adminToken", "");
-          navigate("/somewhere/in/www/admin");
-        }}
-        variant="text"
-      >Logout {props.userName}</Button>
+        <Button
+          sx={styles.logoutBtn}
+          onClick={() => {
+            localStorage.setItem("adminToken", "");
+            navigate("/somewhere/in/www/admin");
+          }}
+          variant="text"
+        >Logout {props.userName}</Button>
         <img
           style={mediaQuery.matches ? styles.imgLogoMobile : styles.imgLogo}
           src={require("../../assets/image/logo.png")}
@@ -103,7 +103,7 @@ export default function DoorToDoorVerification(props) {
                   >
                     Applications
                   </MenuItem>
-                  <MenuItem
+                  {/* <MenuItem
                     id="under_l2"
                     onClick={(e) => {
                       popupState.close();
@@ -120,8 +120,8 @@ export default function DoorToDoorVerification(props) {
                     }}
                   >
                     QR code – Not Pasted
-                  </MenuItem>
-                  
+                  </MenuItem> */}
+
                 </Menu>
               </React.Fragment>
             )}
@@ -200,12 +200,12 @@ export default function DoorToDoorVerification(props) {
           </PopupState> */}
         </Box>
         <Box sx={styles.table}>
-        <ApplicationTable
-              data={applicants}
-              setApplicantData={props.setApplicantData}
-              actionLink={props.link || "/d2dApplicationDetails"}
-            />
-          </Box>
+          <ApplicationTable
+            data={applicants}
+            setApplicantData={props.setApplicantData}
+            actionLink={props.link || "/d2dApplicationDetails"}
+          />
+        </Box>
       </Container>
     </div>
   );

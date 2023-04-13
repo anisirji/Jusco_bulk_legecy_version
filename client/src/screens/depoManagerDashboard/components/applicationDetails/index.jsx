@@ -25,8 +25,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DocumentView from "../../../document";
 // import { loginUser } from "../../../../../../server/routes/userLogin";
 
-export default  function ApplicationDetails({ applicantData }) {
-  
+export default function ApplicationDetails({ applicantData }) {
+
   console.log(applicantData);
 
   let navigate = useNavigate();
@@ -44,7 +44,7 @@ export default  function ApplicationDetails({ applicantData }) {
     Latitude: "",
     area: "",
     rate: "",
-    remarks_depot:""
+    remarks_depot: ""
   });
 
   const [category, setCategory] = useState("");
@@ -53,39 +53,44 @@ export default  function ApplicationDetails({ applicantData }) {
   const [subCategories, setSubCategories] = useState([]);
   const [rates, setRates] = useState("");
   const [matrixId, setMatrixId] = useState("");
-  const [finaldata,setFinalData] =useState("")
+  const [finaldata, setFinalData] = useState("")
   const [monthly_billing_category, setMonthly_billing_category] =
     useState("BULK");
 
-    async  function finalata(){
-      console.log("asdfdsaf")
-  const datas = await axios.post("/applicationsDetails",{"application_no":applicantData.application_no})
-.then((res)=>{setFinalData(res.data)})
-console.log(finaldata)
-    }
-   finalata()
+  async function finalata() {
+    console.log("asdfdsaf")
+    const datas = await axios.post("/applicationsDetails", { "application_no": applicantData.application_no })
+      .then((res) => { setFinalData(res.data) })
+    console.log(finaldata)
+  }
+  finalata()
   const handleChange = (key) => {
     key.preventDefault();
     setCreds({ ...creds, [key.target.id]: key.target.value });
   };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
-    axios.post("/updateCustomerData",
-    { applicantId:applicantData.customer_id, 
-      updatedData:{
-        frequency: parseInt(freq),
-        remarks_depot:creds.remarks_depot,
-        monthly_billing_category: monthly_billing_category,
-        signature_on_device: mobileAck ? "yes" : "no",
-        status:3
-        
-    }, token:localStorage.getItem("adminToken") }
-  ).then((res)=>
-  {
-    alert(res.data.message)
-    const a = res.data.flag?navigate("/depoManagerDashboard"):"continue";
-  })
+    if (creds.remarks_depot == "") {
+      alert("please input Remarks")
+    } else {
+      e.preventDefault();
+      axios.post("/updateCustomerData",
+        {
+          applicantId: applicantData.customer_id,
+          updatedData: {
+            frequency: parseInt(freq),
+            remarks_depot: creds.remarks_depot,
+            monthly_billing_category: monthly_billing_category,
+            signature_on_device: mobileAck ? "yes" : "no",
+            status: 3
+
+          }, token: localStorage.getItem("adminToken")
+        }
+      ).then((res) => {
+        alert(res.data.message)
+        const a = res.data.flag ? navigate("/depoManagerDashboard") : "continue";
+      })
+    }
     // axios
     //   .post("/sendToHod", {
     //     id: applicantData.customer_id,
@@ -171,7 +176,7 @@ console.log(finaldata)
 
   return (
     <>
-    <DocumentView docImg={docImg} setdocImg={setdocImg}/>
+      <DocumentView docImg={docImg} setdocImg={setdocImg} />
       <div ref={divForScroll}></div>
       <Container maxWidth="xl" sx={styles.container}>
         <IconButton
@@ -239,17 +244,17 @@ console.log(finaldata)
                   {" "}
                   {docType(applicantData?.document_type_1)}
                 </Typography>
-        
-                <Typography onClick={()=>{setdocImg(`${applicantData?.document_file_name_1}`)}} sx={styles.fieldData}>
+
+                <Typography onClick={() => { setdocImg(`${applicantData?.document_file_name_1}`) }} sx={styles.fieldData}>
                   {applicantData?.document_no_1}
-                </Typography> 
+                </Typography>
               </Box>
               <Box sx={styles.detailsRow}>
-            <Typography sx={styles.field}>
+                <Typography sx={styles.field}>
                   {" "}
                   {docType(applicantData?.document_type_2)}
                 </Typography>
-                <Typography onClick={()=>{setdocImg(`${applicantData?.document_file_name_2}`)}} sx={styles.fieldData}>
+                <Typography onClick={() => { setdocImg(`${applicantData?.document_file_name_2}`) }} sx={styles.fieldData}>
                   {applicantData?.document_no_2}
                 </Typography>
               </Box>
@@ -258,7 +263,7 @@ console.log(finaldata)
                   {" "}
                   {docType(applicantData?.document_type_3)}
                 </Typography>
-                <Typography onClick={()=>{setdocImg(`${applicantData?.document_file_name_3}`)}} sx={styles.fieldData}>
+                <Typography onClick={() => { setdocImg(`${applicantData?.document_file_name_3}`) }} sx={styles.fieldData}>
                   {applicantData?.document_no_3}
                 </Typography>
               </Box>
@@ -569,10 +574,10 @@ console.log(finaldata)
 </FormControl> */}
               <br />
             </div>
-          
+
 
             {/* <Box sx={styles.row2}> */}
-              {/* <FormControl sx={styles.inputField} fullWidth>
+            {/* <FormControl sx={styles.inputField} fullWidth>
                 <InputLabel id="rate">Category</InputLabel>
                 <Select
                   labelId="Category"
@@ -638,62 +643,62 @@ console.log(finaldata)
                 sx={styles.inputField}
               /> */}
             {/* </Box> */}   <Box sx={styles.row}>
-            <div>
-              {/* <Typography sx={styles.dashboardText}>Billing Address</Typography> */}
-              <Box sx={styles.detailsRow}>
-                <Typography sx={styles.field}>Customer remarks</Typography>
-                <Typography sx={styles.fieldData}>
-                {applicantData.remarks}
-                </Typography>
-              </Box>
+              <div>
+                {/* <Typography sx={styles.dashboardText}>Billing Address</Typography> */}
+                <Box sx={styles.detailsRow}>
+                  <Typography sx={styles.field}>Customer remarks</Typography>
+                  <Typography sx={styles.fieldData}>
+                    {applicantData.remarks}
+                  </Typography>
+                </Box>
               </div>
               <div>
-              <Box sx={styles.detailsRow}>
-                <Typography sx={styles.field}>Depot Manager Remarks</Typography>
-                <Typography sx={styles.fieldData}>
-                <TextField
-                    InputProps={{
-                    }}
-                    id="remarks_depot"
-                    type="text"
-                    label="Depot Manager Remarks"
-                    value={creds.remarks_depot}
-                    onChange={handleChange}
-                    sx={styles.inputField}
-                  />
-                </Typography>
-              </Box>
-              </div>
-              </Box>
-            <Typography sx={styles.field}></Typography>
-                <Typography sx={styles.fieldData}>
-                  
-                </Typography>
-            <br/>
-            <Typography sx={styles.dashboardText}>
-                Nature Of Business
-              </Typography>
-            <Box sx={styles.detailsRow}>
-           
-                <Typography sx={styles.field}>Category</Typography>
-                <Typography sx={styles.fieldData}>
-                  {applicantData.category}
-                </Typography>
-                <Typography sx={styles.field}>Sub-Category</Typography>
-                <Typography sx={styles.fieldData}>
-                  {applicantData.sub_category}
-                </Typography>
-                </Box>
                 <Box sx={styles.detailsRow}>
-                <Typography sx={styles.field}>Area</Typography>
-                <Typography sx={styles.fieldData}>
-                  {applicantData.rate_category}
-                </Typography>
-                <Typography sx={styles.field}>Rate</Typography>
-                <Typography sx={styles.fieldData}>
-                  {applicantData.rate_value}
-                </Typography>
-              </Box>
+                  <Typography sx={styles.field}>Depot Manager Remarks</Typography>
+                  <Typography sx={styles.fieldData}>
+                    <TextField
+                      InputProps={{
+                      }}
+                      id="remarks_depot"
+                      type="text"
+                      label="Depot Manager Remarks"
+                      value={creds.remarks_depot}
+                      onChange={handleChange}
+                      sx={styles.inputField}
+                    />
+                  </Typography>
+                </Box>
+              </div>
+            </Box>
+            <Typography sx={styles.field}></Typography>
+            <Typography sx={styles.fieldData}>
+
+            </Typography>
+            <br />
+            <Typography sx={styles.dashboardText}>
+              Nature Of Business
+            </Typography>
+            <Box sx={styles.detailsRow}>
+
+              <Typography sx={styles.field}>Category</Typography>
+              <Typography sx={styles.fieldData}>
+                {applicantData.category}
+              </Typography>
+              <Typography sx={styles.field}>Sub-Category</Typography>
+              <Typography sx={styles.fieldData}>
+                {applicantData.sub_category}
+              </Typography>
+            </Box>
+            <Box sx={styles.detailsRow}>
+              <Typography sx={styles.field}>Area</Typography>
+              <Typography sx={styles.fieldData}>
+                {applicantData.rate_category}
+              </Typography>
+              <Typography sx={styles.field}>Rate</Typography>
+              <Typography sx={styles.fieldData}>
+                {applicantData.rate_value}
+              </Typography>
+            </Box>
           </div>
         </Paper>
 

@@ -24,7 +24,7 @@ export default function DepoManagerDashboard(props) {
 
   const [loading, setLoading] = useState(false)
   const [check, setCheck] = useState(parseInt(localStorage.getItem("checkStatus")) || 0);
-  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication")||"Under level 1 review");
+  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication") || "Under Depot Manager");
   const [Table, setTable] = useState(
     <ApplicationTable
       data={applicants}
@@ -47,7 +47,7 @@ export default function DepoManagerDashboard(props) {
   }
 
   const fetchApplicants = async (e) => {
-  
+
     const a = await axios
       .post("/getApplications", {
         token: localStorage.getItem("adminToken"),
@@ -60,10 +60,10 @@ export default function DepoManagerDashboard(props) {
   };
 
   const fetchApi = async (check) => {
-    localStorage.setItem("checkStatus",check)
+    localStorage.setItem("checkStatus", check)
     setLoading(true)
     console.log(check == 0);
-    if (check == 0) {
+    if (check == 0 || check == 13) {
       setLink(props.link || "/applicationDetails")
       fetchApplicants();
 
@@ -101,7 +101,7 @@ export default function DepoManagerDashboard(props) {
           }}
           variant="text"
         >
-          Logout 
+          Logout
           {/* {props.userName} */}
         </Button>
 
@@ -139,13 +139,13 @@ export default function DepoManagerDashboard(props) {
                     onClick={() => {
                       popupState.close();
                       setCheck(0);
-                      setTableName("Under level 1 review");
-                      localStorage.setItem("statusOfApplication","Under level 1 review")
+                      setTableName("Under Depot Manager");
+                      localStorage.setItem("statusOfApplication", "Under Depot Manager")
                       console.log("fetching new applications");
                       // setApplicants("wating for new data");
                     }}
                   >
-                    Under level 1 review
+                    Under Depot Manager
                   </MenuItem>
                   {/* <MenuItem
                     id="under_l1"
@@ -163,36 +163,36 @@ export default function DepoManagerDashboard(props) {
                     id="under_l2"
                     onClick={(e) => {
                       setCheck(3);
-                      setTableName("Under level 2 review");
-                      localStorage.setItem("statusOfApplication","Under level 2 review")
+                      setTableName("Under HOD");
+                      localStorage.setItem("statusOfApplication", "Under HOD")
 
                       console.log("fetching new under_l2");
                       popupState.close();
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 2 review
+                    Under HOD
                   </MenuItem>
                   <MenuItem
                     id="under_l3"
                     onClick={(e) => {
                       setCheck(5);
-                      setTableName("Under level 3 review");
-                      localStorage.setItem("statusOfApplication","Under level 3 review")
+                      setTableName("Under Dept. Admin");
+                      localStorage.setItem("statusOfApplication", "Under Dept. Admin")
 
                       console.log("fetching new under_l3");
                       popupState.close();
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 3 review
+                    Under Dept. Admin
                   </MenuItem>
                   <MenuItem
                     id="pending_C_A"
                     onClick={(e) => {
                       setCheck(4);
                       setTableName("Pending customer acceptance");
-                      localStorage.setItem("statusOfApplication","Pending customer acceptance")
+                      localStorage.setItem("statusOfApplication", "Pending customer acceptance")
 
                       console.log("fetching new Pending customer acceptance");
                       popupState.close();
@@ -207,7 +207,7 @@ export default function DepoManagerDashboard(props) {
                       setCheck(6);
                       setTableName("Approved");
                       console.log("fetching new approved");
-                      localStorage.setItem("statusOfApplication","Apprved")
+                      localStorage.setItem("statusOfApplication", "Apprved")
 
                       popupState.close();
                       // handleClickPop(e);
@@ -220,7 +220,7 @@ export default function DepoManagerDashboard(props) {
                     onClick={(e) => {
                       setCheck(7);
                       setTableName("rejected");
-                      localStorage.setItem("statusOfApplication","fetching new Pending rejected")
+                      localStorage.setItem("statusOfApplication", "fetching new Pending rejected")
 
                       console.log("fetching new Pending rejected");
                       popupState.close();
@@ -233,15 +233,27 @@ export default function DepoManagerDashboard(props) {
                     id="under_l2_wr"
                     onClick={(e) => {
                       setCheck(9);
-                      setTableName("Under level 2 review with reason");
-                      localStorage.setItem("statusOfApplication","Under level 2 review with reason")
+                      setTableName("Under HOD with reason");
+                      localStorage.setItem("statusOfApplication", "Under HOD with reason")
 
-                      console.log("Under level 2 review with reason");
+                      console.log("Under HOD with reason");
                       popupState.close();
                     }}
                   >
-                    Under level 2 review with reason
+                    Under HOD with reason
                   </MenuItem>
+                  {/* <MenuItem
+                    id="under_l2_wr"
+                    onClick={(e) => {
+                      setCheck(13);
+                      setTableName("Correcctions");
+                      localStorage.setItem("statusOfApplication", "Correcctions")
+                      console.log("Correcctions");
+                      popupState.close();
+                    }}
+                  >
+                    Correction
+                  </MenuItem> */}
                 </Menu>
               </React.Fragment>
             )}

@@ -3,7 +3,7 @@
 const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
 async function updateCustomerData(data) {
-  let { applicantId,rate_proposed,matrix_id, updatedData, token } = data; //updatedData is an object
+  let { applicantId, rate_proposed, matrix_id, updatedData, token } = data; //updatedData is an object
   console.log(data);
   // console.log(applicantId,token);
   // try {
@@ -77,5 +77,31 @@ async function updateCustomerData(data) {
   //   };
   // }
 }
+async function updateManyCustomerData({ customer_id, updatedData }) {
+  console.log("updating data...");
+  console.log({ customer_id, updatedData });
+  try {
+    const application = await db.customer.update({
+      where: {
+        id: customer_id,
+      },
+      data: updatedData, //key value pair should match database fields name
+    });
+    console.log({
+      flag: true,
+      message: "data updated",
+    });
+    return {
+      flag: true,
+      message: "data updated",
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      flag: false,
+      message: e,
+    };
+  }
+}
 
-module.exports = { updateCustomerData };
+module.exports = { updateCustomerData, updateManyCustomerData };

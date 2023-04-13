@@ -43,7 +43,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 //   return { name, mobile, email, area, gstNo,isReturn,expiration };
 // }
 
-export default function ApplicationTable({ data, actionLink, setApplicantData}) {
+export default function ApplicationTable({ data, actionLink, setApplicantData }) {
   let navigate = useNavigate();
   console.log(data)
   // console.log(actionLink);
@@ -61,20 +61,22 @@ export default function ApplicationTable({ data, actionLink, setApplicantData}) 
               <StyledTableCell align="center">Pick up address</StyledTableCell>
               <StyledTableCell align="center">Latitude</StyledTableCell>
               <StyledTableCell align="center">Longitude</StyledTableCell>
+              <StyledTableCell align="center">QR-Status</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row,idx) => (
+            {data.map((row, idx) => (
               <StyledTableRow key={row.application_no}>
-                <StyledTableCell align="center">{idx+1}</StyledTableCell>
+                <StyledTableCell align="center">{idx + 1}</StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   {row?.customer_id}
                 </StyledTableCell>
                 <StyledTableCell align="left"> {row?.pickup_estb_name}</StyledTableCell>
-                <StyledTableCell align="left"> {row?.pickup_estb_name+" "+row?.pickup_estb_name+" "+row?.pickup_street+" "+row?.pickup_locality+" "+row?.pickup_city+" "+row?.pickup_region+" "+row?.pickup_postal_code}</StyledTableCell>
+                <StyledTableCell align="left"> {row?.pickup_estb_name + " " + row?.pickup_estb_name + " " + row?.pickup_street + " " + row?.pickup_locality + " " + row?.pickup_city + " " + row?.pickup_region + " " + row?.pickup_postal_code}</StyledTableCell>
                 <StyledTableCell align="center"> {row?.latitude}</StyledTableCell>
                 <StyledTableCell align="center">{row?.longitude}</StyledTableCell>
+                <StyledTableCell align="center"><b>{row?.house_id == row?.application_no ? "NOT PASTED" : "PASTED"}</b></StyledTableCell>
                 <StyledTableCell align="center">
                   <Button
                     onClick={() => {

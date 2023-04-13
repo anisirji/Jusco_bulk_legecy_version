@@ -45,7 +45,7 @@ async function loginUser(data) {
           message: "Logged in",
           lastLog: user.activity_log,
         });
-        user.user_name = user.first_name + ", " + user.last_name 
+        user.user_name = user.first_name + ", " + user.last_name;
         console.log(user);
         return {
           flag: true,

@@ -264,7 +264,7 @@ export default function CustomerApplicationStatus(props) {
               </Button>
               <br />
               {
-                (props.userData?.status === 4) ?
+                (props.userData?.status === 4 || props.userData?.status === 15) ?
                   <>
                     <Stack direction="row" spacing={2}>
                       <FormGroup>

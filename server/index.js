@@ -15,7 +15,10 @@ const { changeStatus } = require("./routes/changeStatus");
 const { getAllApplication } = require("./routes/getAllapplications");
 const { sendToHod } = require("./routes/sentToHod");
 const { sms } = require("./routes/sendMessage");
-const { updateCustomerData } = require("./routes/updateCustomerData");
+const {
+  updateCustomerData,
+  updateManyCustomerData,
+} = require("./routes/updateCustomerData");
 const { createInvoice } = require("./routes/createInvoice");
 const { getInvoice } = require("./routes/getInvoice");
 const { getCustomerClassification } = require("./routes/getTableData");
@@ -157,6 +160,11 @@ app.post("/sms", async (req, res) => {
 
 app.post("/updateCustomerData", async (req, res) => {
   const response = await updateCustomerData(req.body);
+  console.log(response);
+  res.send(response);
+});
+app.post("/updateManyCustomerData", async (req, res) => {
+  const response = await updateManyCustomerData(req.body);
   console.log(response);
   res.send(response);
 });

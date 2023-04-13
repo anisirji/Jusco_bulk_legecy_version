@@ -18,11 +18,11 @@ export default function HodDashboard(props) {
 
   const mediaQuery = window.matchMedia("(max-width: 650px)");
   const [check, setCheck] = useState(parseInt(localStorage.getItem("checkStatus")) || 0);
-  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication")||"Under level 2 review");
+  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication") || "Under HOD");
   const [applicants, setApplicants] = useState([]);
   const [link, setLink] = useState("/hodApplicationDetails")
   const [loding, setLoding] = useState(true);
-const [dateTime,setDateTime] = useState()
+  const [dateTime, setDateTime] = useState()
   const [Table, setTable] = useState(
     <ApplicationTable
       data={applicants}
@@ -57,10 +57,10 @@ const [dateTime,setDateTime] = useState()
   };
 
   const fetchApi = async (check) => {
-    localStorage.setItem("checkStatus",check)
+    localStorage.setItem("checkStatus", check)
     setLoding(true)
     console.log(check == 0);
-    if (check == 0) {
+    if (check == 0, check == 14) {
       setLink("/hodApplicationDetails")
       fetchApplicants();
 
@@ -98,7 +98,7 @@ const [dateTime,setDateTime] = useState()
           }}
           variant="text"
         >
-          Logout 
+          Logout
           {/* {props.userName} */}
         </Button>
 
@@ -135,48 +135,48 @@ const [dateTime,setDateTime] = useState()
                   <MenuItem
                     id="application"
                     onClick={() => {
-                      localStorage.setItem("statusOfApplication","Under level 2 review")
+                      localStorage.setItem("statusOfApplication", "Under HOD")
                       popupState.close();
                       setCheck(0);
-                      setTableName("Under level 2 review");
+                      setTableName("Under HOD");
                       console.log("fetching new applications");
                       // setApplicants("wating for new data");
                     }}
                   >
-                    Under level 2 review
+                    Under HOD
                   </MenuItem>
                   <MenuItem
                     id="under_l1"
                     onClick={(e) => {
-                      localStorage.setItem("statusOfApplication","Under level 1 review")
+                      localStorage.setItem("statusOfApplication", "Under Depot Manager")
                       setCheck(1);
-                      setTableName("Under level 1 review");
+                      setTableName("Under Depot Manager");
                       popupState.close();
                       console.log("fetching new under_l1");
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 1 review
+                    Under Depot Manager
                   </MenuItem>
                   <MenuItem
                     id="under_l3"
                     onClick={(e) => {
-                      localStorage.setItem("statusOfApplication","Under level 3 review")
+                      localStorage.setItem("statusOfApplication", "Under Dept. Admin")
                       setCheck(5);
-                      setTableName("Under level 3 review");
+                      setTableName("Under Dept. Admin");
                       console.log("fetching new under_l3");
                       popupState.close();
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 3 review
+                    Under Dept. Admin
                   </MenuItem>
                   <MenuItem
                     id="pending_C_A"
                     onClick={(e) => {
                       setCheck(4);
                       setTableName("Pending customer acceptance");
-                      localStorage.setItem("statusOfApplication","Pending customer acceptance")
+                      localStorage.setItem("statusOfApplication", "Pending customer acceptance")
                       console.log("fetching new Pending customer acceptance");
                       popupState.close();
                       // handleClickPop(e);
@@ -188,7 +188,7 @@ const [dateTime,setDateTime] = useState()
                     id="approved"
                     onClick={(e) => {
                       setCheck(3);
-                      localStorage.setItem("statusOfApplication","Approved")
+                      localStorage.setItem("statusOfApplication", "Approved")
                       setTableName("Approved");
                       console.log("fetching new approved");
                       popupState.close();
@@ -201,7 +201,7 @@ const [dateTime,setDateTime] = useState()
                     id="rejected"
                     onClick={(e) => {
                       setCheck(7);
-                      localStorage.setItem("statusOfApplication","rejected")
+                      localStorage.setItem("statusOfApplication", "rejected")
                       setTableName("rejected");
                       console.log("fetching new Pending rejected");
                       popupState.close();
@@ -213,15 +213,27 @@ const [dateTime,setDateTime] = useState()
                   <MenuItem
                     id="under_l2_wr"
                     onClick={(e) => {
-                      localStorage.setItem("statusOfApplication","Under level 2 review with reason")
+                      localStorage.setItem("statusOfApplication", "Under HOD with reason")
                       setCheck(9);
-                      setTableName("Under level 2 review with reason");
+                      setTableName("Under HOD with reason");
                       console.log("fetching new Pending rejected");
                       popupState.close();
                     }}
                   >
-                    Under level 2 review with reason
+                    Under HOD with reason
                   </MenuItem>
+                  {/* <MenuItem
+                    id="Corrections"
+                    onClick={(e) => {
+                      localStorage.setItem("statusOfApplication", "Corrections")
+                      setCheck(14);
+                      setTableName("Corrections");
+                      console.log("fetching new Corrections");
+                      popupState.close();
+                    }}
+                  >
+                    Corrections
+                  </MenuItem> */}
                 </Menu>
               </React.Fragment>
             )}

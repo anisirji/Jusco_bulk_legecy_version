@@ -4,8 +4,8 @@ const db = new PrismaClient();
 function rateCat(rateCategory, categoryId) {
   for (let i = 0; i < rateCategory.length; i++) {
     if (rateCategory[i].id == categoryId) {
-      rateCategory[i]["cat_id"] = rateCategory[i]["id"]
-      delete rateCategory['id']; // Delete old key
+      rateCategory[i]["cat_id"] = rateCategory[i]["id"];
+      delete rateCategory["id"]; // Delete old key
       return rateCategory[i];
     }
   }
@@ -14,8 +14,8 @@ function rateCat(rateCategory, categoryId) {
 function subCat(subCategory, subCategoryId) {
   for (let i = 0; i < subCategory.length; i++) {
     if (subCategory[i].id == subCategoryId) {
-      subCategory[i]["sub_cat_Id"]=subCategory[i]["id"]
-      delete subCategory['id']
+      subCategory[i]["sub_cat_Id"] = subCategory[i]["id"];
+      delete subCategory["id"];
       return subCategory[i];
     }
   }
@@ -24,8 +24,8 @@ function subCat(subCategory, subCategoryId) {
 function classify(classification, id) {
   for (let i = 0; i < classification.length; i++) {
     if (classification[i].id == id) {
-      classification[i]["classification_id"]=classification[i]["id"]
-      delete classification['id']
+      classification[i]["classification_id"] = classification[i]["id"];
+      delete classification["id"];
       return classification[i];
     }
   }
@@ -38,37 +38,36 @@ function applicationFormatter(
   subCategory,
   classification
 ) {
-	console.log(rateTable)
-  if(rateTable){
-	  
-  let NR = [];
-  for (let i = 0; i < rateTable.length; i++) {
-    let id = rateTable[i].customer_id;
-    let category = rateCat(rateCategory, rateTable[i].matrix_rate_id);
+  console.log(rateTable);
+  if (rateTable) {
+    let NR = [];
+    for (let i = 0; i < rateTable.length; i++) {
+      let id = rateTable[i].customer_id;
+      let category = rateCat(rateCategory, rateTable[i].matrix_rate_id);
 
-    let sub_category = subCat(subCategory, category.sub_category_id);
-    let classi = classify(classification, sub_category.category_id);
-    for (let j = 0; j < applications.length; j++) {
-      let temp = {};
-      if (applications[j].id == id) {
-        console.log("matched");
-        let c = applications[j];
-        let r = rateTable[i];
-        temp = { ...c, ...r, ...category, ...sub_category, ...classi };
-        NR.push(temp);
-        applications.splice(i, 1);
-        break;
+      let sub_category = subCat(subCategory, category.sub_category_id);
+      let classi = classify(classification, sub_category.category_id);
+      for (let j = 0; j < applications.length; j++) {
+        let temp = {};
+        if (applications[j].id == id) {
+          console.log("matched");
+          let c = applications[j];
+          let r = rateTable[i];
+          temp = { ...c, ...r, ...category, ...sub_category, ...classi };
+          NR.push(temp);
+          applications.splice(i, 1);
+          break;
+        }
       }
     }
+    let data = {
+      applications: [...NR],
+    };
+    console.log(data);
+    return [...applications, ...NR];
+  } else {
+    return [...applications];
   }
-  let data = {
-    applications: [...NR],
-  };
-  console.log(data);
-  return [...applications, ...NR];
-}else{
-  return [...applications]
-}
 }
 
 async function getAllApplication({ token }) {
@@ -88,14 +87,14 @@ async function getAllApplication({ token }) {
     return { flag: false, message: "Bad Request" };
   } else if (usr.user_role == 2) {
     const applicants = await db.customer.findMany();
-    
+
     let newAppli = applicationFormatter(
       applicants,
       rateChart,
       rateCategory,
       subCategory,
       classification
-    )
+    );
 
     let application = [];
     for (let i = 0; i < newAppli.length; i++) {
@@ -103,7 +102,7 @@ async function getAllApplication({ token }) {
         application.push(newAppli[i]);
       }
     }
-    console.log("applicaion",application);
+    console.log("applicaion", application);
 
     return {
       flag: true,
@@ -121,7 +120,7 @@ async function getAllApplication({ token }) {
     return {
       flag: true,
       message: "Success",
-      data:  applicationFormatter(
+      data: applicationFormatter(
         applicants,
         rateChart,
         rateCategory,
@@ -166,7 +165,7 @@ async function getAllApplication({ token }) {
         rateCategory,
         subCategory,
         classification
-      )
+      ),
     };
   } else {
     return {
@@ -176,4 +175,4 @@ async function getAllApplication({ token }) {
   }
 }
 
-module.exports = { getAllApplication };
+// module.exports = { getAllApplication };

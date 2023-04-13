@@ -71,10 +71,10 @@ export default function ApplicationTable({ data, actionLink, setApplicantData, s
           </TableHead>
           <TableBody>
             {data.filter((e) => e.status === status).map((row, i) => (
-              <StyledTableRow key={row.application_no}>
+              <StyledTableRow key={row.customer_id}>
                 <StyledTableCell align="left">{i + 1}</StyledTableCell>
                 <StyledTableCell component="th" scope="row">
-                  {row?.application_no}
+                  {row?.customer_id}
                 </StyledTableCell>
                 <StyledTableCell align="left">{row?.pickup_estb_name}</StyledTableCell>
                 <StyledTableCell align="left"> {row?.salutation + ". " + row?.first_name + " " + row?.last_name}</StyledTableCell>

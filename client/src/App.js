@@ -33,6 +33,8 @@ import DepoManager from "./screens/assets/depoManager";
 import Details from "./screens/assets/details";
 import AdminDashboard from "./screens/adminDashboard";
 import Field_zone from "./screens/fieldManager_zone";
+import UserApplicationUpdate from "./screens/userApplicationEdit";
+import CustomerApplicationStatusEdit from "./screens/userApplicationEdit/applicationStatusEdit";
 
 function App() {
   const [userData, setUserData] = useState("");
@@ -127,6 +129,10 @@ function App() {
               element={<CustomerApplicationStatus userData={userData} />}
             />
             <Route
+              path="/applicationStatusEdit"
+              element={<CustomerApplicationStatusEdit userData={userData} />}
+            />
+            <Route
               path="/hodDashboard"
               element={
                 <HodDashboard
@@ -166,6 +172,10 @@ function App() {
             <Route
               path="/applicationFormPdf"
               element={<ApplicationFormPdf userData={userData} />}
+            />
+            <Route
+              path="/editUserApplication"
+              element={<UserApplicationUpdate setUserData={setUserData} />}
             />
             <Route
               path="/customerReviewLetterPdf"

@@ -22,7 +22,7 @@ export default function AccountManagerDashboard(props) {
   const [applicants, setApplicants] = useState([]);
 
   const [check, setCheck] = useState(parseInt(localStorage.getItem("checkStatus")) || 0);
-  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication") || "Under level 3 review");
+  const [tableName, setTableName] = useState(localStorage.getItem("statusOfApplication") || "Under Dept. Admin");
 
   const [loding, setLoading] = useState(true)
   const [Table, setTable] = useState(
@@ -135,40 +135,40 @@ export default function AccountManagerDashboard(props) {
                     onClick={() => {
                       popupState.close();
                       setCheck(0);
-                      localStorage.setItem("statusOfApplication", "Under level 3 review")
-                      setTableName("Under level 3 review");
+                      localStorage.setItem("statusOfApplication", "Under Dept. Admin")
+                      setTableName("Under Dept. Admin");
                       console.log("fetching new applications");
                       // setApplicants("wating for new data");
                     }}
                   >
-                    Under level 3 review
+                    Under Dept. Admin
                   </MenuItem>
                   <MenuItem
                     id="under_l1"
                     onClick={(e) => {
                       setCheck(1);
-                      setTableName("Under level 1 review");
-                      localStorage.setItem("statusOfApplication", "Under level 1 review")
+                      setTableName("Under Depot Manager");
+                      localStorage.setItem("statusOfApplication", "Under Depot Manager")
                       popupState.close();
                       console.log("fetching new under_l1");
 
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 1 review
+                    Under Depot Manager
                   </MenuItem>
                   <MenuItem
                     id="under_l2"
                     onClick={(e) => {
                       setCheck(3);
-                      setTableName("Under level 2 review");
-                      localStorage.setItem("statusOfApplication", "Under level 2 review")
+                      setTableName("Under HOD");
+                      localStorage.setItem("statusOfApplication", "Under HOD")
                       console.log("fetching new under_l2");
                       popupState.close();
                       // handleClickPop(e);
                     }}
                   >
-                    Under level 2 review
+                    Under HOD
                   </MenuItem>
                   <MenuItem
                     id="pending_C_A"
@@ -213,13 +213,13 @@ export default function AccountManagerDashboard(props) {
                     id="under_l2_wr"
                     onClick={(e) => {
                       setCheck(9);
-                      setTableName("Under level 2 review with reason");
+                      setTableName("Under HOD with reason");
                       console.log("fetching new Pending rejected");
-                      localStorage.setItem("statusOfApplication", "Under level 2 review with reason")
+                      localStorage.setItem("statusOfApplication", "Under HOD with reason")
                       popupState.close();
                     }}
                   >
-                    Under level 2 review with reason
+                    Under HOD with reason
                   </MenuItem>
                 </Menu>
               </React.Fragment>

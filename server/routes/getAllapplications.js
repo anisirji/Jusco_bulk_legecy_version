@@ -50,12 +50,20 @@ function applicationFormatter(
       for (let j = 0; j < applications.length; j++) {
         let temp = {};
         if (applications[j].id == id) {
-          let customer_entry_date = applications[j].entry_date
-          let matrix_id = rateTable[i].id
+          let customer_entry_date = applications[j].entry_date;
+          let matrix_id = rateTable[i].id;
           console.log("matched");
           let c = applications[j];
           let r = rateTable[i];
-          temp = { ...c, ...r, ...category, ...sub_category, ...classi ,matrix_id,customer_entry_date};
+          temp = {
+            ...c,
+            ...r,
+            ...category,
+            ...sub_category,
+            ...classi,
+            matrix_id,
+            customer_entry_date,
+          };
           NR.push(temp);
           applications.splice(j, 1);
           break;
@@ -152,7 +160,7 @@ async function getAllApplication({ token }) {
     const applicants = await db.customer.findMany({
       //d2d get all applicatios
       where: {
-        status: 6,
+        status: 12,
         // qr_code_image: "",
       },
     });

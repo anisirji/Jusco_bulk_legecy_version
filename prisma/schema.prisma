@@ -23,13 +23,13 @@ model customer {
   medium_of_communication  String? @db.VarChar(16)
   document_type_1          Int?
   document_no_1            String? @db.VarChar(1128)
-  document_file_name_1     String? @db.LongText
+  document_file_name_1     String? @db.Text
   document_type_2          Int?
   document_no_2            String? @db.VarChar(128)
-  document_file_name_2     String? @db.LongText
+  document_file_name_2     String? @db.Text
   document_type_3          Int?
   document_no_3            String? @db.VarChar(128)
-  document_file_name_3     String? @db.LongText
+  document_file_name_3     String? @db.Text
   billing_estb_name        String? @db.VarChar(20)
   billing_street           String? @db.VarChar(35)
   billing_zone             String? @db.VarChar(128)
@@ -73,13 +73,14 @@ model customer {
   remarks_hod              String? @db.Text
   remarks_accounts         String? @db.Text
   material_code            String? @db.VarChar(64)
-  profile_flag             String? @db.VarChar(16)
+  profile_flag             String? @db.VarChar(256)
 }
 
 model invoice {
   id           String    @id @db.VarChar(128)
   invoice_no   String?   @unique(map: "invoice_no") @db.VarChar(32)
   irn          String?   @db.Text
+  irn_qr       String?   @db.Text
   invoice_date String?   @db.Text
   from_date    DateTime? @db.Date
   to_date      DateTime? @db.Date

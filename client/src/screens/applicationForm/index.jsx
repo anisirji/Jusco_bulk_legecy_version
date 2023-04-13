@@ -35,6 +35,8 @@ import MyLocationIcon from "@mui/icons-material/MyLocation";
 import { FormLabel } from "@mui/material";
 import { Navigate } from "react-router-dom";
 
+
+
 export default function ApplicationForm() {
   let navigate = useNavigate();
 
@@ -329,13 +331,15 @@ export default function ApplicationForm() {
       }
     );
   };
+  const [houses, setHouses] = useState("");
 
   useEffect(() => {
     fetchLocation();
   }, []);
-
+  const [houseRate, setHouseRate] = useState()
+  const [houseCheck, setHouseCheck] = useState(0)
   const submitHandler = async (e) => {
-    
+
     // e.preventDefault();
     setLoading(true)
     axios.post("/createApplication", {
@@ -374,7 +378,7 @@ export default function ApplicationForm() {
       areaPa,
       localityPa,
       qty: creds.qty,
-      remarks: creds.remarks,
+      remarks: houseCheck ? `Complex Selected : number of houses ${houses} and rate ${rate} + ${creds.remarks}` : creds.remarks,
       longitude: location.longitude,
       latitude: location.latitude,
       customer_category:
@@ -384,7 +388,7 @@ export default function ApplicationForm() {
       docFile3: docFile3,
       medium_lang: language,
       signature_acknowledgement: signature,
-      rate_proposed: rate,
+      rate_proposed: houseCheck ? houseRate : rate,
       matrix_rate_id: matrixId,
       rate_category: "urban",
 
@@ -433,15 +437,15 @@ export default function ApplicationForm() {
   };
 
   const sendOtp = async () => {
-   /* axios
-      .post("/sms", {
-        phone: creds.mobile.substring(creds.mobile.length - 10),
-        message: `Your OTP for TATA STEEL UISL Bulk Generation application is ${otp}`,
-      })
-      .then((res) => {
-        alert("OTP " + res.data?.message);
-        setOpen(true);
-      });*/
+    /* axios
+       .post("/sms", {
+         phone: creds.mobile.substring(creds.mobile.length - 10),
+         message: `Your OTP for TATA STEEL UISL Bulk Generation application is ${otp}`,
+       })
+       .then((res) => {
+         alert("OTP " + res.data?.message);
+         setOpen(true);
+       });*/
     setOpen(true);
   };
 
@@ -471,7 +475,58 @@ export default function ApplicationForm() {
       setRate(rates?.rate_urban);
     }
   }, [rates]);
+  function complexSelect() {
+    const complexSelect = <>
+      <TextField
+        id="no_of_houses"
+        type="number"
+        label="Number Of Houses"
+        value={houses}
+        onChange={(e) => {
+          setHouses(e.target.value);
 
+        }}
+        sx={styles.inputField}
+      />
+      <TextField
+        readOnly
+        id="rate_per_house"
+        type="text"
+        label="Rate"
+        value={80}
+        onChange={(e) => {
+          // setRate(e.target.value);
+        }}
+        sx={styles.inputField}
+      />
+      <TextField
+        readOnly
+        id="rate"
+        type="text"
+        label="Pickup/Rate"
+        value={80 * houses}
+        onChange={(e) => {
+          setHouseCheck(1)
+          setHouseRate(e.target.value);
+        }}
+        sx={styles.inputField}
+      />
+
+    </>
+    console.log(subCategory);
+    console.log("salkdhfliadsgfldsaf daslf lads fsadulfy daslufadsfydaslfyladsiufydaslufyadsuiy daskfyads yoyadsoyfu");
+    return subCategory == 46 ? complexSelect : <TextField
+      id="rate"
+      type="text"
+      label="Pickup/Rate"
+      value={rate}
+      onChange={(e) => {
+        setRate(e.target.value);
+        setHouseCheck(0)
+      }}
+      sx={styles.inputField}
+    />
+  }
   return (
     <>
       <PrivacyPolicyPopup
@@ -1360,6 +1415,7 @@ export default function ApplicationForm() {
                 label="subCategory"
                 onChange={(e) => {
                   setSubCategory(e.target.value);
+
                 }}
               >
                 {subCategories.map((e) => {
@@ -1378,6 +1434,7 @@ export default function ApplicationForm() {
                 value={rate}
                 //value="urban"
                 label="Area"
+                // onRateChange={}
                 onChange={(e) => {
                   setRate(e.target.value);
                 }}
@@ -1388,16 +1445,10 @@ export default function ApplicationForm() {
               </Select>
             </FormControl>
 
-            <TextField
-              id="rate"
-              type="text"
-              label="Pickup/Rate"
-              value={rate}
-              onChange={(e) => {
-                setRate(e.target.value);
-              }}
-              sx={styles.inputField}
-            />
+            {
+              complexSelect()
+            }
+
           </Box>
         </Paper>
         <Paper variant="outlined" sx={styles.fieldContainer}>
