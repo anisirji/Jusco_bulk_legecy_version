@@ -337,7 +337,7 @@ export default function ApplicationForm() {
     fetchLocation();
   }, []);
   const [houseRate, setHouseRate] = useState()
-  const [houseCheck, setHouseCheck] = useState(0)
+  const [houseCheck, setHouseCheck] = useState(false)
   const submitHandler = async (e) => {
 
     // e.preventDefault();
@@ -378,7 +378,7 @@ export default function ApplicationForm() {
       areaPa,
       localityPa,
       qty: creds.qty,
-      remarks: houseCheck ? `Complex Selected : number of houses ${houses} and rate ${rate} + ${creds.remarks}` : creds.remarks,
+      remarks: houseCheck ? `Complex Selected : number of houses ${houses} and rate ${80} + ${creds.remarks}` : creds.remarks,
       longitude: location.longitude,
       latitude: location.latitude,
       customer_category:
@@ -388,7 +388,7 @@ export default function ApplicationForm() {
       docFile3: docFile3,
       medium_lang: language,
       signature_acknowledgement: signature,
-      rate_proposed: houseCheck ? houseRate : rate,
+      rate_proposed: houseCheck ? houses * 80 : rate,
       matrix_rate_id: matrixId,
       rate_category: "urban",
 
@@ -506,7 +506,7 @@ export default function ApplicationForm() {
         label="Pickup/Rate"
         value={80 * houses}
         onChange={(e) => {
-          setHouseCheck(1)
+          setHouseCheck(true)
           setHouseRate(e.target.value);
         }}
         sx={styles.inputField}
@@ -522,7 +522,7 @@ export default function ApplicationForm() {
       value={rate}
       onChange={(e) => {
         setRate(e.target.value);
-        setHouseCheck(0)
+        setHouseCheck(false)
       }}
       sx={styles.inputField}
     />

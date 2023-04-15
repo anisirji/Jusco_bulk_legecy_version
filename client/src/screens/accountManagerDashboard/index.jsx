@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import ApplicationTable from "./components/ApplicationTable";
+import ApplicationInvoiceTable from "./components/ApplicationInvoiceTable";
 // import AllData from "./TableData/allData";
 
 export default function AccountManagerDashboard(props) {
@@ -59,6 +60,7 @@ export default function AccountManagerDashboard(props) {
   };
 
   const fetchApi = async (check) => {
+    setInvoice(false)
     localStorage.setItem("checkStatus", check)
     setLoading(true)
     console.log(check == 0);
@@ -84,6 +86,8 @@ export default function AccountManagerDashboard(props) {
   useEffect(() => {
     fetchApi(check);
   }, [check]);
+
+  const [invoice, setInvoice] = useState(false)
 
   return (
     <div>
@@ -286,6 +290,38 @@ export default function AccountManagerDashboard(props) {
               </React.Fragment>
             )}
           </PopupState>
+          <PopupState
+            sx={styles.tabItem}
+            variant="popover"
+            popupId="demo-popup-menu"
+          >
+            {(popupState) => (
+              <React.Fragment>
+                <Button
+                  sx={styles.tabItem}
+                  variant="outlined"
+                  {...bindTrigger(popupState)}
+                >
+                  Invoice
+                  <KeyboardArrowDownIcon />
+                </Button>
+                <Menu {...bindMenu(popupState)}>
+                  <MenuItem sx={{ ml: 2 }} onClick={async () => {
+                    const res = await axios.get("/generateInvoice")
+                    alert(res.data.message)
+                  }}>Generate Invoice</MenuItem>
+
+                  <MenuItem sx={{ ml: 2 }} onClick={async () => {
+                    popupState.close()
+                    const invoceDetails = await axios.get("getCurrentInvoice")
+                    setApplicants(invoceDetails.data.data)
+                    setInvoice(true)
+                  }}>Get All Current Invoice</MenuItem>
+
+                </Menu>
+              </React.Fragment>
+            )}
+          </PopupState>
 
           {props.isAdmin === "yes" ||
             props.isAdmin === "Yes" ||
@@ -345,7 +381,7 @@ export default function AccountManagerDashboard(props) {
         </Box>
         <Box sx={styles.table}>
           {
-            loding ? "Loading..." : <ApplicationTable
+            invoice ? <ApplicationInvoiceTable data={applicants} actionLink={"/none"} /> : loding ? "Loading..." : <ApplicationTable
               data={applicants}
               setApplicantData={props.setApplicantData}
               actionLink={Link}

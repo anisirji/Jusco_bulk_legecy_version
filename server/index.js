@@ -48,6 +48,10 @@ const readApplicationFormatter = require("./utils/readApplicationFormatter");
 const applicationAgainstStatus = require("./routes/applicationAgainstStatus");
 const { readInvoice, writeInvoice } = require("./routes/invoce");
 const updateRateMatrix = require("./routes/updateCustomerRateMatrix");
+const {
+  generateInvoice,
+  getCurrentInvoice,
+} = require("./routes/invoiceGeneration");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "authanticImages");
@@ -345,6 +349,16 @@ app.post("/master-customer-classification", async (req, res) => {
 app.post("/update-customer-rate-matrix", async (req, res) => {
   console.log(req.body);
   const response = await updateRateMatrix(req.body);
+  res.send(response);
+});
+
+app.get("/generateInvoice", async (req, res) => {
+  const response = await generateInvoice();
+  res.send(response);
+});
+
+app.get("/getCurrentInvoice", async (req, res) => {
+  const response = await getCurrentInvoice();
   res.send(response);
 });
 
