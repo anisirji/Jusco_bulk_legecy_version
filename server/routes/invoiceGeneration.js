@@ -1,12 +1,115 @@
 const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
+const response = {
+  HS0036012: [
+    {
+      lat: "20.9668377",
+      lng: "86.0088841",
+      created_at: "2022-11-03T11:02:54+05:30",
+      status: "DRY",
+    },
+    {
+      lat: "20.9668261",
+      lng: "86.0088843",
+      created_at: "2022-11-05T11:30:56+05:30",
+      status: "DRY",
+    },
+  ],
+  HS0036013: [
+    {
+      lat: "20.9668377",
+      lng: "86.0088841",
+      created_at: "2022-11-03T11:02:54+05:30",
+      status: "DRY",
+    },
+    {
+      lat: "20.9668261",
+      lng: "86.0088843",
+      created_at: "2022-11-05T11:30:56+05:30",
+      status: "DRY",
+    },
+  ],
+  HS0036014: [
+    {
+      lat: "20.9668377",
+      lng: "86.0088841",
+      created_at: "2022-11-03T11:02:54+05:30",
+      status: "DRY",
+    },
+    {
+      lat: "20.9668261",
+      lng: "86.0088843",
+      created_at: "2022-11-05T11:30:56+05:30",
+      status: "DRY",
+    },
+  ],
+  HS0036012: [
+    {
+      lat: "20.9668377",
+      lng: "86.0088841",
+      created_at: "2022-11-03T11:02:54+05:30",
+      status: "DRY",
+    },
+    {
+      lat: "20.9668261",
+      lng: "86.0088843",
+      created_at: "2022-11-05T11:30:56+05:30",
+      status: "DRY",
+    },
+  ],
+};
+async function createTransactions() {
+  const data = [];
+
+  // Transform the response object into an array of transaction objects
+  for (const [key, values] of Object.entries(response)) {
+    const mc_value = await db.customer.findUnique({
+      where: {
+        house_id: key,
+      },
+      select: {
+        customer_id: true,
+      },
+    });
+    console.log(mc_value);
+    for (const value of values) {
+      data.push({
+        id: `${key}/${Math.floor(Math.random() * 100000)}`,
+        customer_id: mc_value.customer_id,
+        pick_up_done: "YES",
+        pick_up_at: `${(value.lng, value.lat)}`,
+        pick_up_time: new Date(value.created_at),
+        garbage_category: value.status,
+        entry_date: new Date(new Date()),
+      });
+    }
+  }
+
+  // Insert the data into the "transaction" table
+  try {
+    const transactions = await db.transaction_collection.createMany({
+      data,
+    });
+    console.log(`Created ${transactions.count} transactions`);
+
+    return transactions;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
 
 async function generateInvoice() {
+  // const transaction = await createTransactions();
   const customerData = await db.customer.findMany({
     where: {
       NOT: { material_code: null },
     },
     select: {
+      first_name: true,
+      last_name: true,
+      mobile_no: true,
       id: true,
       application_no: true,
       house_id: true,

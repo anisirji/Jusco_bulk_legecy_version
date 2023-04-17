@@ -62,7 +62,7 @@ model customer {
   qr_code_by               Int?
   qr_code_at               String? @db.VarChar(32)
   qr_code_time             String? @db.VarChar(30)
-  qr_code_image            String? @db.VarChar(512)
+  qr_code_image            String? @db.Text
   entry_date               String? @db.VarChar(30)
   last_modified_by         Int?
   last_modified_date       String? @db.VarChar(30)
@@ -196,7 +196,7 @@ model matrix_customer_rate {
 
 model transaction_collection {
   id               String   @id @db.VarChar(32)
-  customer_id      BigInt
+  customer_id      String   @db.VarChar(100)
   pick_up_done     String   @db.VarChar(3)
   pick_up_at       String   @db.VarChar(32)
   pick_up_time     DateTime @db.DateTime(0)

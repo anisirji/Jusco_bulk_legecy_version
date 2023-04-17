@@ -388,7 +388,7 @@ export default function ApplicationForm() {
       docFile3: docFile3,
       medium_lang: language,
       signature_acknowledgement: signature,
-      rate_proposed: houseCheck ? houses * 80 : rate,
+      rate_proposed: houses > 0 ? houses * 80 : rate,
       matrix_rate_id: matrixId,
       rate_category: "urban",
 
